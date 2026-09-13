@@ -1,0 +1,171 @@
+@use '../../styles/tokens' as *;
+
+.calendarWrapper {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 65px);
+  overflow: hidden;
+  background-color: var(--bg-primary);
+}
+
+.scrollContainer {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+  background-color: var(--bg-primary);
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: var(--time-col-width) repeat(7, minmax(120px, 1fr));
+  grid-template-rows: 56px auto;
+  min-width: calc(var(--time-col-width) + 120px * 7);
+  width: 100%;
+}
+
+.cornerCell {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 40;
+  height: 56px;
+  background-color: var(--bg-secondary);
+  border-right: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.dayHeaderCell {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  height: 56px;
+  padding: 8px 4px;
+  text-align: center;
+  background-color: var(--bg-secondary);
+  border-right: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  transition: background-color 0.15s ease;
+
+  &.noRightBorder {
+    border-right: none;
+  }
+
+  &.isToday {
+    background-color: rgba(0, 120, 212, 0.05);
+
+    .dayNumber span {
+      background-color: var(--accent-blue);
+      color: #ffffff;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+    }
+  }
+}
+
+.dayName {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  line-height: 1;
+}
+
+.dayNumber {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-top: 2px;
+  line-height: 1;
+}
+
+.timeColumn {
+  position: sticky;
+  left: 0;
+  z-index: 25;
+  background-color: var(--bg-secondary);
+  border-right: 1px solid var(--border-subtle);
+  user-select: none;
+}
+
+.timeSlotLabel {
+  height: var(--slot-height);
+  padding-right: 8px;
+  text-align: right;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  border-bottom: 1px solid transparent;
+  transform: translateY(-8px);
+}
+
+.dayColumn {
+  position: relative;
+  background-color: var(--bg-primary);
+  border-right: 1px solid var(--border-subtle);
+
+  &.noRightBorder {
+    border-right: none;
+  }
+
+  &.isToday {
+    background-color: rgba(0, 120, 212, 0.015);
+  }
+}
+
+.gridSlot {
+  height: var(--slot-height);
+  border-bottom: 1px solid var(--time-grid-line);
+  position: relative;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(0, 120, 212, 0.04);
+  }
+
+  // Half-hour dashed divider
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    border-bottom: 1px dashed var(--time-grid-line);
+    pointer-events: none;
+    opacity: 0.6;
+  }
+}
+
+.currentTimeLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--current-time-line);
+  z-index: 20;
+  pointer-events: none;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: -4px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--current-time-line);
+  }
+}
